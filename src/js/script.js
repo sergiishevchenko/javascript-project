@@ -237,13 +237,14 @@ window.addEventListener('DOMContentLoaded', function() {
         if (target && target.classList.contains('icons')) {
             for (let i = 0; i < balconIcons.length; i++) {
                 if (target == balconIcons[i]) {
+                    balconIcons[i].classList.add('iconsA');
                     hideIcons(0);
                     showIcons(i);
                     break;
                 }
+                balconIcons[i].classList.remove('iconsA');
             }
         }
-
     });
 
     // Input (поля "Ширина" и "Высота")
