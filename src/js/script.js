@@ -313,6 +313,7 @@ window.addEventListener('DOMContentLoaded', function() {
         };
 
     let form = document.getElementsByTagName('form'),
+        typeWindows = document.querySelectorAll('.big_icons'),
         typeCovering = document.querySelector('.popup_calc_profile_content select'),
         checkbox = document.querySelectorAll('.checkbox-custom'),
         statusMessage = document.createElement('div');
@@ -342,6 +343,9 @@ window.addEventListener('DOMContentLoaded', function() {
     popupCalcButton.addEventListener('click', function() {
         formData.append(widthWindow.getAttribute('placeholder'), widthWindow.value);
         formData.append(heightWindow.getAttribute('placeholder'), heightWindow.value);
+        for (let i = 0; i < typeWindows.length; i++) {
+            formData.append('Type of window: ', typeWindows[i].id)
+        }
     });
 
     popupCalcProfileButton.addEventListener('click', function() {
