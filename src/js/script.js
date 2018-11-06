@@ -77,9 +77,12 @@ window.addEventListener('DOMContentLoaded', function() {
         if (target && target.classList.contains('glazing_block') || target.classList.contains('link') || target.classList.contains('image')) {
             for (let i = 0; i < tabs.length; i++) {
                 if (target == tabs[i] || target == links[i] || target == images[i]) {
+                    links[i].classList.add('active');
                     hideTabsContent(0);
                     showTabsContent(i);
                     break;
+                } else {
+                    links[i].classList.remove('active');
                 }
             }
         }
