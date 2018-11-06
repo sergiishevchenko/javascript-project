@@ -18,6 +18,8 @@ function calc() {
             popupCalc.style.display = 'none';
             tabCalc[i].classList.remove('more-splash');
             document.body.style.overflow = '';
+            widthWindow.value = '';
+            heightWindow.value = '';
         });
 
     }
@@ -30,6 +32,7 @@ function calc() {
 
     function hideIcons(a) {
         for (let i = a; i < bigIcons.length; i++) {
+            balconIcons[i].classList.remove('iconsA');
             bigIcons[i].classList.remove('show');
             bigIcons[i].classList.add('hide');
         }
@@ -45,19 +48,18 @@ function calc() {
     }
 
     balcony.addEventListener('click', function(event) {
+        event.preventDefault();
         let target = event.target;
         if (target && target.classList.contains('icons')) {
             for (let i = 0; i < balconIcons.length; i++) {
                 if (target == balconIcons[i]) {
-                    balconIcons[i].classList.add('iconsA');
                     hideIcons(0);
+                    balconIcons[i].classList.add('iconsA');
                     showIcons(i);
                     break;
                 }
-                balconIcons[i].classList.remove('iconsA');
             }
         }
-
     });
 
     // Input (поля "Ширина" и "Высота")
@@ -77,14 +79,19 @@ function calc() {
 
     let popupCalcButton = document.querySelector('.popup_calc_button'),
         popupCalcProfile = document.querySelector('.popup_calc_profile'),
+        checkbox = document.querySelectorAll('.checkbox'),
         popupCalcProfileClose = document.querySelector('.popup_calc_profile_close');
 
-    popupCalcButton.addEventListener('click', function() {
-        popupCalcProfile.style.display = 'block';
-        popupCalc.style.display = 'none';
-        popupCalc.classList.remove('more-splash');
-        this.classList.add('more-splash');
-        document.body.style.overflow = 'hidden';
+    popupCalcButton.addEventListener('click', function(e) {
+        if (widthWindow.value == 0 || heightWindow.value == 0) {
+            e.preventDefault();
+        } else {
+            popupCalcProfile.style.display = 'block';
+            popupCalc.style.display = 'none';
+            popupCalc.classList.remove('more-splash');
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        }
     });
 
     popupCalcProfileClose.addEventListener('click', function() {
@@ -93,6 +100,10 @@ function calc() {
         popupCalc.style.display = 'none';
         popupCalc.classList.remove('more-splash');
         document.body.style.overflow = '';
+        widthWindow.value = '';
+        heightWindow.value = '';
+        checkbox[0].checked = false;
+        checkbox[1].checked = false;
     });
 
     
@@ -100,14 +111,26 @@ function calc() {
 
     let popupCalcProfileButton = document.querySelector('.popup_calc_profile_button'),
         popupCalcEnd = document.querySelector('.popup_calc_end'),
+        input = document.querySelectorAll('.form_input'),
         popupCalcEndClose = document.querySelector('.popup_calc_end_close');
 
-    popupCalcProfileButton.addEventListener('click', function() {
-        popupCalcEnd.style.display = 'block';
-        popupCalcProfile.style.display = 'none';
-        popupCalcButton.classList.remove('more-splash');
-        this.classList.add('more-splash');
-        document.body.style.overflow = 'hidden';
+    popupCalcProfileButton.addEventListener('click', function(e) {
+        if (checkbox[0].checked === false && checkbox[1].checked === false) {
+            e.preventDefault();
+        } else {
+            popupCalcEnd.style.display = 'block';
+            popupCalcProfile.style.display = 'none';
+            popupCalcButton.classList.remove('more-splash');
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+            checkbox[0].addEventListener('click', function() {
+                checkbox[1].checked = false;
+            });
+        
+            checkbox[1].addEventListener('click', function() {
+                checkbox[0].checked = false;
+            });
+        }
     });
 
     popupCalcEndClose.addEventListener('click', function() {
@@ -116,6 +139,12 @@ function calc() {
         popupCalc.style.display = 'none';
         popupCalc.classList.remove('more-splash');
         document.body.style.overflow = '';
+        input[16].value = '';
+        input[17].value = '';
+        checkbox[0].checked = false;
+        checkbox[1].checked = false;
+        widthWindow.value = '';
+        heightWindow.value = '';
     });
 
     // Forms
@@ -129,7 +158,6 @@ function calc() {
     let form = document.getElementsByTagName('form'),
         typeWindows = document.querySelectorAll('.big_icons'),
         typeCovering = document.querySelector('.popup_calc_profile_content select'),
-        checkbox = document.querySelectorAll('.checkbox-custom'),
         statusMessage = document.createElement('div');
 
     let formData = new FormData();
@@ -143,24 +171,26 @@ function calc() {
     }
     
     checkbox[0].addEventListener('click', function() {
-        checkbox[1].checked === false;
+        checkbox[1].checked = false;
         formData.append('Стиль остекленения: ', "Cold");
     });
 
     checkbox[1].addEventListener('click', function() {
-        checkbox[0].checked === false;
+        checkbox[0].checked = false;
         formData.append('Стиль остекленения: ', "Warm");
     });
 
     statusMessage.classList.add('status');
-
+    
     popupCalcButton.addEventListener('click', function() {
         formData.append(widthWindow.getAttribute('placeholder'), widthWindow.value);
         formData.append(heightWindow.getAttribute('placeholder'), heightWindow.value);
         for (let i = 0; i < typeWindows.length; i++) {
-            formData.append('Type of window: ', typeWindows[i].id)
+            formData.append('Type of window: ', typeWindows[i].id);
         }
     });
+    
+    
 
     popupCalcProfileButton.addEventListener('click', function() {
         formData.append(typeCovering.getAttribute('id'), typeCovering.value);
@@ -176,7 +206,7 @@ function calc() {
                 request.open('POST', 'server.php');
                 request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     
-            let input = form[i].querySelectorAll('.form_input');
+            
 
             for (let i = 0; i < input.length; i++) {
                 formData.append(input[i].getAttribute('name'), input[i].value);

@@ -30,7 +30,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     for (let i = 0; i < phoneLink.length; i++) {
 
-        phoneLink[i].addEventListener('click', function() {
+        phoneLink[i].addEventListener('click', function(e) {
+            e.preventDefault();
             popup.style.display = 'block';
             this.classList.add('more-splash');
             document.body.style.overflow = 'hidden';
@@ -58,6 +59,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     function hideTabsContent(a) {
         for (let i = a; i < tabsContent.length; i++) {
+            links[i].classList.remove('active');
             tabsContent[i].classList.remove('show');
             tabsContent[i].classList.add('hide');
         }
@@ -77,12 +79,10 @@ window.addEventListener('DOMContentLoaded', function() {
         if (target && target.classList.contains('glazing_block') || target.classList.contains('link') || target.classList.contains('image')) {
             for (let i = 0; i < tabs.length; i++) {
                 if (target == tabs[i] || target == links[i] || target == images[i]) {
-                    links[i].classList.add('active');
                     hideTabsContent(0);
+                    links[i].classList.add('active');
                     showTabsContent(i);
                     break;
-                } else {
-                    links[i].classList.remove('active');
                 }
             }
         }
@@ -101,10 +101,11 @@ window.addEventListener('DOMContentLoaded', function() {
 
     function hideTabsContentFinish(a) {
         for (let i = a; i < tabsContentFinish.length; i++) {
+            dLink[i].classList.remove('after_click');
             tabsContentFinish[i].classList.remove('show');
             tabsContentFinish[i].classList.add('hide');
         }
-    }
+    }   
 
     hideTabsContentFinish(1);
 
@@ -120,12 +121,10 @@ window.addEventListener('DOMContentLoaded', function() {
         if (target && target.classList.contains('decor_link') || target.classList.contains('d_link') || target.classList.contains('decoration_item')) {
             for (let i = 0; i < tabsFinish.length; i++) {
                 if (target == tabsFinish[i] || target == dLink[i] || target == decorItem[i]) {
-                    dLink[i].classList.add('after_click');
                     hideTabsContentFinish(0);
+                    dLink[i].classList.add('after_click');
                     showTabsContentFinish(i);
                     break;
-                } else {
-                    dLink[i].classList.remove('after_click');
                 }
             }
         }
@@ -212,6 +211,8 @@ window.addEventListener('DOMContentLoaded', function() {
             popupCalc.style.display = 'none';
             tabCalc[i].classList.remove('more-splash');
             document.body.style.overflow = '';
+            widthWindow.value = '';
+            heightWindow.value = '';
         });
 
     }
@@ -224,6 +225,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     function hideIcons(a) {
         for (let i = a; i < bigIcons.length; i++) {
+            balconIcons[i].classList.remove('iconsA');
             bigIcons[i].classList.remove('show');
             bigIcons[i].classList.add('hide');
         }
@@ -239,16 +241,16 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     balcony.addEventListener('click', function(event) {
+        event.preventDefault();
         let target = event.target;
         if (target && target.classList.contains('icons')) {
             for (let i = 0; i < balconIcons.length; i++) {
                 if (target == balconIcons[i]) {
-                    balconIcons[i].classList.add('iconsA');
                     hideIcons(0);
+                    balconIcons[i].classList.add('iconsA');
                     showIcons(i);
                     break;
                 }
-                balconIcons[i].classList.remove('iconsA');
             }
         }
     });
@@ -270,14 +272,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
     let popupCalcButton = document.querySelector('.popup_calc_button'),
         popupCalcProfile = document.querySelector('.popup_calc_profile'),
+        checkbox = document.querySelectorAll('.checkbox'),
         popupCalcProfileClose = document.querySelector('.popup_calc_profile_close');
 
-    popupCalcButton.addEventListener('click', function() {
-        popupCalcProfile.style.display = 'block';
-        popupCalc.style.display = 'none';
-        popupCalc.classList.remove('more-splash');
-        this.classList.add('more-splash');
-        document.body.style.overflow = 'hidden';
+    popupCalcButton.addEventListener('click', function(e) {
+        if (widthWindow.value == 0 || heightWindow.value == 0) {
+            e.preventDefault();
+        } else {
+            popupCalcProfile.style.display = 'block';
+            popupCalc.style.display = 'none';
+            popupCalc.classList.remove('more-splash');
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        }
     });
 
     popupCalcProfileClose.addEventListener('click', function() {
@@ -286,6 +293,10 @@ window.addEventListener('DOMContentLoaded', function() {
         popupCalc.style.display = 'none';
         popupCalc.classList.remove('more-splash');
         document.body.style.overflow = '';
+        widthWindow.value = '';
+        heightWindow.value = '';
+        checkbox[0].checked = false;
+        checkbox[1].checked = false;
     });
 
     
@@ -293,14 +304,26 @@ window.addEventListener('DOMContentLoaded', function() {
 
     let popupCalcProfileButton = document.querySelector('.popup_calc_profile_button'),
         popupCalcEnd = document.querySelector('.popup_calc_end'),
+        input = document.querySelectorAll('.form_input'),
         popupCalcEndClose = document.querySelector('.popup_calc_end_close');
 
-    popupCalcProfileButton.addEventListener('click', function() {
-        popupCalcEnd.style.display = 'block';
-        popupCalcProfile.style.display = 'none';
-        popupCalcButton.classList.remove('more-splash');
-        this.classList.add('more-splash');
-        document.body.style.overflow = 'hidden';
+    popupCalcProfileButton.addEventListener('click', function(e) {
+        if (checkbox[0].checked === false && checkbox[1].checked === false) {
+            e.preventDefault();
+        } else {
+            popupCalcEnd.style.display = 'block';
+            popupCalcProfile.style.display = 'none';
+            popupCalcButton.classList.remove('more-splash');
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+            checkbox[0].addEventListener('click', function() {
+                checkbox[1].checked = false;
+            });
+        
+            checkbox[1].addEventListener('click', function() {
+                checkbox[0].checked = false;
+            });
+        }
     });
 
     popupCalcEndClose.addEventListener('click', function() {
@@ -309,6 +332,12 @@ window.addEventListener('DOMContentLoaded', function() {
         popupCalc.style.display = 'none';
         popupCalc.classList.remove('more-splash');
         document.body.style.overflow = '';
+        input[16].value = '';
+        input[17].value = '';
+        checkbox[0].checked = false;
+        checkbox[1].checked = false;
+        widthWindow.value = '';
+        heightWindow.value = '';
     });
 
     // Forms
@@ -322,7 +351,6 @@ window.addEventListener('DOMContentLoaded', function() {
     let form = document.getElementsByTagName('form'),
         typeWindows = document.querySelectorAll('.big_icons'),
         typeCovering = document.querySelector('.popup_calc_profile_content select'),
-        checkbox = document.querySelectorAll('.checkbox-custom'),
         statusMessage = document.createElement('div');
 
     let formData = new FormData();
@@ -336,24 +364,26 @@ window.addEventListener('DOMContentLoaded', function() {
     }
     
     checkbox[0].addEventListener('click', function() {
-        checkbox[1].checked === false;
+        checkbox[1].checked = false;
         formData.append('Стиль остекленения: ', "Cold");
     });
 
     checkbox[1].addEventListener('click', function() {
-        checkbox[0].checked === false;
+        checkbox[0].checked = false;
         formData.append('Стиль остекленения: ', "Warm");
     });
 
     statusMessage.classList.add('status');
-
+    
     popupCalcButton.addEventListener('click', function() {
         formData.append(widthWindow.getAttribute('placeholder'), widthWindow.value);
         formData.append(heightWindow.getAttribute('placeholder'), heightWindow.value);
         for (let i = 0; i < typeWindows.length; i++) {
-            formData.append('Type of window: ', typeWindows[i].id)
+            formData.append('Type of window: ', typeWindows[i].id);
         }
     });
+    
+    
 
     popupCalcProfileButton.addEventListener('click', function() {
         formData.append(typeCovering.getAttribute('id'), typeCovering.value);
@@ -369,7 +399,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 request.open('POST', 'server.php');
                 request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     
-            let input = form[i].querySelectorAll('.form_input');
+            
 
             for (let i = 0; i < input.length; i++) {
                 formData.append(input[i].getAttribute('name'), input[i].value);
@@ -431,10 +461,10 @@ window.addEventListener('DOMContentLoaded', function() {
     
     // Появление окна
 
-    setTimeout(popupUp, 60000);
+    // setTimeout(popupUp, 60000);
 
-    function popupUp() {
-        let modal = document.querySelector('.popup');
-        modal.style.display = 'block';
-    }
+    // function popupUp() {
+    //     let modal = document.querySelector('.popup');
+    //     modal.style.display = 'block';
+    // }
 });

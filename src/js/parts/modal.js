@@ -29,7 +29,8 @@ function modal() {
 
     for (let i = 0; i < phoneLink.length; i++) {
 
-        phoneLink[i].addEventListener('click', function() {
+        phoneLink[i].addEventListener('click', function(e) {
+            e.preventDefault();
             popup.style.display = 'block';
             this.classList.add('more-splash');
             document.body.style.overflow = 'hidden';

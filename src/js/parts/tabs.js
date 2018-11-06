@@ -11,6 +11,7 @@ function tabs() {
 
     function hideTabsContent(a) {
         for (let i = a; i < tabsContent.length; i++) {
+            links[i].classList.remove('active');
             tabsContent[i].classList.remove('show');
             tabsContent[i].classList.add('hide');
         }
@@ -30,12 +31,10 @@ function tabs() {
         if (target && target.classList.contains('glazing_block') || target.classList.contains('link') || target.classList.contains('image')) {
             for (let i = 0; i < tabs.length; i++) {
                 if (target == tabs[i] || target == links[i] || target == images[i]) {
-                    links[i].classList.add('active');
                     hideTabsContent(0);
+                    links[i].classList.add('active');
                     showTabsContent(i);
                     break;
-                } else {
-                    links[i].classList.remove('active');
                 }
             }
         }
@@ -54,10 +53,11 @@ function tabs() {
 
     function hideTabsContentFinish(a) {
         for (let i = a; i < tabsContentFinish.length; i++) {
+            dLink[i].classList.remove('after_click');
             tabsContentFinish[i].classList.remove('show');
             tabsContentFinish[i].classList.add('hide');
         }
-    }
+    }   
 
     hideTabsContentFinish(1);
 
@@ -73,12 +73,10 @@ function tabs() {
         if (target && target.classList.contains('decor_link') || target.classList.contains('d_link') || target.classList.contains('decoration_item')) {
             for (let i = 0; i < tabsFinish.length; i++) {
                 if (target == tabsFinish[i] || target == dLink[i] || target == decorItem[i]) {
-                    dLink[i].classList.add('after_click');
                     hideTabsContentFinish(0);
+                    dLink[i].classList.add('after_click');
                     showTabsContentFinish(i);
                     break;
-                } else {
-                    dLink[i].classList.remove('after_click');
                 }
             }
         }
