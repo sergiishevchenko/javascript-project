@@ -120,9 +120,12 @@ window.addEventListener('DOMContentLoaded', function() {
         if (target && target.classList.contains('decor_link') || target.classList.contains('d_link') || target.classList.contains('decoration_item')) {
             for (let i = 0; i < tabsFinish.length; i++) {
                 if (target == tabsFinish[i] || target == dLink[i] || target == decorItem[i]) {
+                    dLink[i].classList.add('after_click');
                     hideTabsContentFinish(0);
                     showTabsContentFinish(i);
                     break;
+                } else {
+                    dLink[i].classList.remove('after_click');
                 }
             }
         }
