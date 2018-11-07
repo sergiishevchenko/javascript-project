@@ -1555,4 +1555,10 @@ textarea:focus {
   -o-transform: scale(1.2);
   transform: scale(1.2);
   }
+
+  .click_link {
+    border: none !important;
+    text-decoration: none !important;
+    color: #0089cd !important;
+  }
           

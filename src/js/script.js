@@ -90,45 +90,86 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    // Tabs for finishing work
+    // Tabs for finishing work 1-й вариант
 
-    let tabsFinish = document.querySelectorAll('.decor_link'),
-        infoFinish = document.querySelector('.decoration_slider'),
-        dLink = document.querySelectorAll('.d_link'),
-        decorItem = document.querySelectorAll('.decoration_item'),
-        tabsContentFinish = document.querySelectorAll('.decor');
+    // let tabsFinish = document.querySelectorAll('.decor_link'),
+    //     infoFinish = document.querySelector('.decoration_slider'),
+    //     dLink = document.querySelectorAll('.d_link'),
+    //     decorItem = document.querySelectorAll('.decoration_item'),
+    //     tabsContentFinish = document.querySelectorAll('.decor');
 
 
-    function hideTabsContentFinish(a) {
+    // function hideTabsContentFinish(a) {
+    //     for (let i = a; i < tabsContentFinish.length; i++) {
+    //         dLink[i].classList.remove('after_click');
+    //         tabsFinish[i].classList.remove('click_link');
+    //         tabsContentFinish[i].classList.remove('show');
+    //         tabsContentFinish[i].classList.add('hide');
+    //     }
+    // }   
+
+    // hideTabsContentFinish(1);
+
+    // function showTabsContentFinish(b) {
+    //     if (tabsContentFinish[b].classList.contains('hide')) {
+    //         tabsContentFinish[b].classList.remove('hide');
+    //         tabsContentFinish[b].classList.add('show');
+    //     }
+    // }
+
+    // infoFinish.addEventListener('click', function(event) {
+    //     let target = event.target;
+    //     if (target && target.classList.contains('decor_link') || target.classList.contains('d_link') || target.classList.contains('decoration_item')) {
+    //         for (let i = 0; i < tabsFinish.length; i++) {
+    //             if (target == tabsFinish[i] || target == dLink[i] || target == decorItem[i]) {
+    //                 hideTabsContentFinish(0);
+    //                 dLink[i].classList.add('after_click');
+    //                 tabsFinish[i].classList.add('click_link');
+    //                 showTabsContentFinish(i);
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    // });
+
+    // Tabs for finishing work 2-й вариант
+
+    let decorItem = document.querySelectorAll(".decoration_item"),
+        dLink = document.querySelectorAll(".d_link"),
+        tabsFinish = document.querySelectorAll(".decor_link"),
+        tabsContentFinish = document.querySelectorAll(".decor");
+
+    function hideTabContent(a) {
         for (let i = a; i < tabsContentFinish.length; i++) {
-            dLink[i].classList.remove('after_click');
-            tabsContentFinish[i].classList.remove('show');
-            tabsContentFinish[i].classList.add('hide');
-        }
-    }   
-
-    hideTabsContentFinish(1);
-
-    function showTabsContentFinish(b) {
-        if (tabsContentFinish[b].classList.contains('hide')) {
-            tabsContentFinish[b].classList.remove('hide');
-            tabsContentFinish[b].classList.add('show');
+            dLink[i].classList.remove("after_click");
+            dLink[i].classList.add("no_click");
+            tabsFinish[i].classList.remove("click_link");
+            tabsContentFinish[i].classList.remove("show");
+            tabsContentFinish[i].classList.add("hide");
         }
     }
 
-    infoFinish.addEventListener('click', function(event) {
-        let target = event.target;
-        if (target && target.classList.contains('decor_link') || target.classList.contains('d_link') || target.classList.contains('decoration_item')) {
-            for (let i = 0; i < tabsFinish.length; i++) {
-                if (target == tabsFinish[i] || target == dLink[i] || target == decorItem[i]) {
-                    hideTabsContentFinish(0);
-                    dLink[i].classList.add('after_click');
-                    showTabsContentFinish(i);
-                    break;
-                }
+    hideTabContent(1);
+
+    function showTabContent(b) {
+        dLink[b].classList.remove("no_click");
+        dLink[b].classList.add("after_click");
+        tabsFinish[b].classList.add("click_link");
+        tabsContentFinish[b].classList.add("show");
+        tabsContentFinish[b].classList.remove("hide");
+    }
+
+    decorItem.forEach(function(link, index) {
+        link.addEventListener("click", function(event) {
+        for (let i = 0; i < decorItem.length; i++) {
+            if (event.target == dLink[i] || event.target == tabsFinish[i]) {
+            hideTabContent(0);
+            showTabContent(index);
+            break;
             }
         }
-
+        });
     });
 
     // Timer
