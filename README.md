@@ -2,7 +2,7 @@
 
 <h3>Overview</h3>
 
-The <b>JavaScript-project</b> is a sample project used to demonstrate best practices in developing the website using the <b>JavaScript</b> framework.
+The <b>JavaScript-project</b> is a sample project used to demonstrate best practices in developing the website using the <b>JavaScript</b>.
 
 
 <h3>Installation</h3>
